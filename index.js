@@ -30,7 +30,24 @@ function wagesEarnedOnDate(empObj,stamp){
     let empHour =  empObj.payPerHour * hoursWorkedOnDate(empObj , stamp);
     return empHour
   }
-  
+
+function createTimeOutEvent(empObj,stamp){
+let date = stamp.split(" ");
+let hour = stamp.split(" ");
+    empObj.timeOutEvents.push( {
+    type : "TimeOut",
+    hour: parseInt(hour[1]),
+    date: date[0]      
+    })
+    return empObj
+}
+
+function hoursWorkedOnDate(empObj,stamp){
+    let tIn = empObj.timeInEvents.find(time => time.date === stamp);
+    let tOut = empObj.timeOutEvents.find(time => time.date === stamp);
+    let interval = (tOut.hour - tIn.hour) /100
+    return interval;
+}
   
 function allWagesFor(empObj) {
     let allDates = empObj.timeInEvents.map(time => time.date);
